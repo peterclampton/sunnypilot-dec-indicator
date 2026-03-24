@@ -16,7 +16,6 @@ class HudRendererSP(HudRenderer):
     super().__init__()
     self.blind_spot_indicators = BlindSpotIndicators()
     self._txt_exp_mode = gui_app.texture('icons_mici/experimental_mode.png', 28, 28)
-    self._txt_traffic_mode = gui_app.texture('icons_mici/traffic_mode.png', 28, 28)
 
   def _update_state(self) -> None:
     super()._update_state()
@@ -26,7 +25,6 @@ class HudRendererSP(HudRenderer):
     super()._render(rect)
     self.blind_spot_indicators.render(rect)
     self._draw_dec_indicator(rect)
-    self._draw_traffic_indicator(rect)
 
   def _draw_dec_indicator(self, rect: rl.Rectangle) -> None:
     """Draw small experimental mode icon in top-right corner when active."""
@@ -44,18 +42,6 @@ class HudRendererSP(HudRenderer):
         x = int(rect.x + rect.width - 46)
         y = int(rect.y + 14)
         rl.draw_texture(self._txt_exp_mode, x, y, rl.WHITE)
-    except Exception:
-      pass
-
-  def _draw_traffic_indicator(self, rect: rl.Rectangle) -> None:
-    """Draw traffic mode icon in top-right corner when traffic personality is active."""
-    try:
-      from openpilot.selfdrive.ui.ui_state import ui_state
-      personality = ui_state.sm["selfdriveState"].personality.raw
-      if personality == 3:  # traffic
-        x = int(rect.x + rect.width - 46)
-        y = int(rect.y + 48)  # below DEC icon position
-        rl.draw_texture(self._txt_traffic_mode, x, y, rl.Color(255, 200, 0, 255))  # amber tint
     except Exception:
       pass
 

@@ -1,23 +1,17 @@
-# sunnypilot DEC & Traffic Mode HUD Indicators
+# sunnypilot DEC / Experimental Mode HUD Indicator
 
-Adds small on-screen icons to the sunnypilot MICI HUD so you can tell at a glance when **Experimental Mode** or **Traffic Personality** is active.
+Adds a small on-screen icon to the sunnypilot MICI HUD so you can tell at a glance when **Experimental Mode** is active.
 
 ![sunnypilot](https://img.shields.io/badge/sunnypilot-MICI_UI-blue)
 ![comma](https://img.shields.io/badge/comma-Comma_3%2F3X%2F4-green)
 
 ## What It Does
 
-### 🔬 Experimental Mode Indicator
 - Displays a small **atom icon** (28×28) in the top-right corner of the HUD
 - Triggers when:
   - `selfdriveState.experimentalMode` is `True` (manual toggle via long-press gap button), **or**
   - DEC (Dynamic Experimental Control) switches to **blended** mode (`longitudinalPlanSP.dec.state == blended`)
 - Uses the existing `icons_mici/experimental_mode.png` asset — no new images needed
-
-### 🚦 Traffic Personality Indicator
-- Displays a **traffic icon** in amber below the experimental mode icon
-- Shows when the driving personality is set to **Traffic** (personality raw value `3`)
-- Uses the existing `icons_mici/traffic_mode.png` asset
 
 ## Requirements
 
@@ -62,17 +56,17 @@ Adds small on-screen icons to the sunnypilot MICI HUD so you can tell at a glanc
 
 ## How It Works
 
-The file extends sunnypilot's `HudRenderer` class (MICI layout) via `HudRendererSP`. The two indicator methods hook into the existing `_render()` pipeline:
+The file extends sunnypilot's `HudRenderer` class (MICI layout) via `HudRendererSP`. The `_draw_dec_indicator()` method hooks into the existing `_render()` pipeline and checks:
 
-- **`_draw_dec_indicator()`** — checks experimental mode state from `selfdriveState` and DEC blended state from `longitudinalPlanSP.dec`
-- **`_draw_traffic_indicator()`** — checks driving personality from `selfdriveState.personality`
+- **Experimental mode** from `selfdriveState.experimentalMode`
+- **DEC blended state** from `longitudinalPlanSP.dec` (active + state raw == 1)
 
-Both use existing icon textures already bundled with sunnypilot. No additional assets required.
+Uses the existing `experimental_mode.png` icon texture already bundled with sunnypilot. No additional assets required.
 
 ## Notes
 
 - **Survives reboots** but NOT sunnypilot updates (updates replace `/data/openpilot/`). Re-apply after updating.
-- The icons are small and unobtrusive — won't block your driving view.
+- The icon is small and unobtrusive — won't block your driving view.
 - All rendering errors are silently caught to avoid crashing the UI.
 - Tested on **Comma 4 + 2017 Lexus RX350 (TSS-P)** with Smart DSU.
 
