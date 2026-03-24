@@ -5,6 +5,8 @@ Adds a small on-screen icon to the sunnypilot MICI HUD so you can tell at a glan
 ![sunnypilot](https://img.shields.io/badge/sunnypilot-MICI_UI-blue)
 ![comma](https://img.shields.io/badge/comma-Comma_3%2F3X%2F4-green)
 
+![DEC Indicator Screenshot](screenshot.jpg)
+
 ## What It Does
 
 - Displays a small **atom icon** (28×28) in the top-right corner of the HUD
